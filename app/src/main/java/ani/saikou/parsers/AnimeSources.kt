@@ -14,24 +14,38 @@ import ani.saikou.parsers.anime.AniWave
 import ani.saikou.parsers.anime.AnimeDao
 import ani.saikou.parsers.anime.Kaido
 
+//Parser Italiani
+import ani.saikou.parsers.anime.AnimeWorld
+import ani.saikou.parsers.anime.AnimeSaturn
+import ani.saikou.parsers.anime.AniPlay
+import ani.saikou.parsers.anime.AnimeUnity
+import ani.saikou.parsers.anime.HentaiWorld
+import ani.saikou.parsers.anime.HentaiSaturn
+
 object AnimeSources : WatchSources() {
     override val list: List<Lazier<BaseParser>> = lazyList(
-        "AllAnime" to ::AllAnime,
-        "AniWave" to ::AniWave,
-        "AnimeDao" to ::AnimeDao,
-        "AnimePahe" to ::AnimePahe,
-        "Gogo" to ::Gogo,
-        "Kaido" to ::Kaido,
-        "Marin" to ::Marin
+        "AnimeWorld (IT)" to ::AnimeWorld,
+        "AnimeSaturn (IT)" to ::AnimeSaturn,
+        "AnyPlay (IT)" to ::AniPlay,
+        "AnimeUnity (IT)" to ::AnimeUnity,
+        "AllAnime (EN)" to ::AllAnime,
+        "AniWave (EN)" to ::AniWave,
+        "AnimeDao (EN)" to ::AnimeDao,
+        "AnimePahe (EN)" to ::AnimePahe,
+        "Gogo (EN)" to ::Gogo,
+        "Kaido (EN)" to ::Kaido,
+        "Marin (EN)" to ::Marin
     )
 }
 
 object HAnimeSources : WatchSources() {
     private val aList: List<Lazier<BaseParser>>  = lazyList(
-        "HentaiMama" to ::HentaiMama,
-        "Haho" to ::Haho,
-        "HentaiStream" to ::HentaiStream,
-        "HentaiFF" to ::HentaiFF,
+        "HentaiWorld (IT)" to ::HentaiWorld,
+        "HentaiSaturn (IT)" to ::HentaiSaturn,
+        "HentaiMama (EN)" to ::HentaiMama,
+        "Haho (EN)" to ::Haho,
+        "HentaiStream (EN)" to ::HentaiStream,
+        "HentaiFF (EN)" to ::HentaiFF,
     )
 
     override val list = listOf(aList,AnimeSources.list).flatten()

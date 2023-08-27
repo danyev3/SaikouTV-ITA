@@ -2,7 +2,7 @@
 
     <string name="repo">saikou-app/saikou</string>
 
-    <string name="app_name">Saikou TV β</string>
+    <string name="app_name">SaikouTV IT β</string>
     <string name="slogan">The Best Anime &amp; Manga app for Android.</string>
 
     <string name="login">Login</string>
@@ -10,7 +10,7 @@
 
     <string name="discord">https://discord.gg/5TXAWTU5qr</string>
     <string name="telegram">https://telegram.me/saikou_app</string>
-    <string name="github">https://github.com/saikou-app/saikou</string>
+    <string name="github">https://github.com/danyev3/SaikouTV-ITA</string>
 
     <string name="home">Home</string>
     <string name="anime">Anime</string>

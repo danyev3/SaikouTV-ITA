@@ -43,6 +43,50 @@ abstract class BaseParser {
     abstract suspend fun search(query: String): List<ShowResponse>
 
     /**
+     * replaceTitleSeason takes in a title of a TV series as a string and returns a
+     * new string with keywords replaced by the associated number
+     * **/
+    class TitleTransform {
+        private val seasonRegex = "(SEASON|Season|season|SEASON\\s|Season\\s|season\\s)(\\d+)".toRegex()
+        private val nthSeasonRegex = "(\\d+)(st|nd|rd|th)\\s(SEASON|season|Season)".toRegex()
+        private val partRegex = "(?<!\\d)(\\sPART|\\sPart|\\spart|\\sPart\\s|\\spart\\s)(\\d+)".toRegex()
+        private val courRegex = "(COUR|Cour|cour|Cour\\s|cour\\s)(\\d+)".toRegex()
+        private val chapterRegex = "(CHAPTER|Chapter|chapter|Chapter\\s|chapter\\s)(\\d+)".toRegex()
+        private val volumeRegex = "(VOLUME|Volume|volume|Volume\\s|volume\\s)(\\d+)".toRegex()
+        private val seriesRegex = "(SERIES|Series|series|Series\\s|series\\s)(\\d+)".toRegex()
+        private val secondSeasonPartRegex = "(-\\sSeconda\\sStagione\\sParte\\s|Seconda\\sStagione\\sParte\\s|Seconda\\sStagione,\\sParte\\s)(\\d+)".toRegex()
+        private val thirdSeasonPartRegex = "(-\\sTerza\\sStagione\\sParte\\s|Terza\\sStagione\\sParte\\s|Terza\\sStagione,\\sParte\\s)(\\d+)".toRegex()
+        private val fourthSeasonPartRegex = "(-\\sQuarta\\sStagione\\sParte\\s|Quarta\\sStagione\\sParte\\s|Quarta\\sStagione,\\sParte\\s)(\\d+)".toRegex()
+        private val regexList = listOf(seasonRegex, nthSeasonRegex, partRegex, courRegex, chapterRegex,
+            volumeRegex, seriesRegex, secondSeasonPartRegex, thirdSeasonPartRegex, fourthSeasonPartRegex)
+        private fun checkRegexMatch(title: String, regexList: List<Regex>): Boolean {
+            for (regex in regexList) {
+                if (regex.containsMatchIn(title)) {
+                    return true
+                }
+            }
+            return false
+        }
+        fun checkMatch(title: String): Boolean {
+            return checkRegexMatch(title, regexList)
+        }
+        fun replaceTitleSeason(title: String): String {
+            return when {
+                seasonRegex.containsMatchIn(title) -> seasonRegex.replace(title, "$2")
+                nthSeasonRegex.containsMatchIn(title) -> nthSeasonRegex.replace(title, "2")
+                partRegex.containsMatchIn(title) -> partRegex.replace(title, " $2")
+                courRegex.containsMatchIn(title) -> courRegex.replace(title, "part $2")
+                chapterRegex.containsMatchIn(title) -> chapterRegex.replace(title, "$2")
+                volumeRegex.containsMatchIn(title) -> volumeRegex.replace(title, "$2")
+                seriesRegex.containsMatchIn(title) -> seriesRegex.replace(title, "$2")
+                secondSeasonPartRegex.containsMatchIn(title) -> secondSeasonPartRegex.replace(title, "2 parte $2")
+                thirdSeasonPartRegex.containsMatchIn(title) -> thirdSeasonPartRegex.replace(title, "3 parte $2")
+                fourthSeasonPartRegex.containsMatchIn(title) -> fourthSeasonPartRegex.replace(title, "4 parte $2")
+                else -> title
+            }
+        }
+    }
+    /**
      * The function app uses to auto find the anime/manga using Media data provided by anilist
      *
      * Isn't necessary to override, but recommended, if you want to improve auto search results
