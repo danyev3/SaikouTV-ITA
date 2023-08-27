@@ -17,6 +17,17 @@ abstract class AnimeParser : BaseParser() {
     abstract suspend fun loadEpisodes(animeLink: String, extra: Map<String, String>?): List<Episode>
 
     /**
+     * Takes ShowResponse.link, ShowResponse.extra & the Last Largest Episode Number known by app as arguments
+     *
+     * Returns the latest episode (If overriding, Make sure the episode is actually the latest episode)
+     * Returns null, if no latest episode is found.
+     * **/
+    open suspend fun getLatestEpisode(animeLink: String, extra: Map<String, String>?, latest: Float): Episode?{
+        return loadEpisodes(animeLink, extra)
+            .maxByOrNull { it.number.toFloatOrNull()?:0f }
+            ?.takeIf { latest < (it.number.toFloatOrNull() ?: 0.001f) }
+    }
+    /**
      * Takes Episode.link as a parameter
      *
      * This returns a Map of "Video Server's Name" & "Link/Data" of all the Video Servers present on the site, which can be further used by loadVideoServers() & loadSingleVideoServer()
