@@ -77,20 +77,17 @@ class AllAnime : AnimeParser() {
             } ?: emptyList()
     }
 
-    private fun String.hexDecode(): String {
-        return substringAfterLast('#')
+    private fun String.hexDecode(): ByteArray {
+        return substringAfterLast('-')
             .chunked(2)
             .map { it.toInt(16).toByte() }
             .toByteArray()
-            .toString(Charsets.UTF_8)
     }
 
     private fun String.decodeHash(): String {
-        var str = hexDecode()
-        str = str.map {
-            (it.code xor 48).toChar()
+        return hexDecode().map {
+            (it.toInt() xor 56).toChar()
         }.joinToString("")
-        return str
     }
 
     override suspend fun getVideoExtractor(server: VideoServer): VideoExtractor? {
